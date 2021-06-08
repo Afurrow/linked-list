@@ -1,28 +1,26 @@
-class LinkdedList
+class LinkedList
+  attr_reader :head, :tail
 
   def initialize
-    @size = 0
     @head = nil
     @tail = nil
   end
 
   def append(value)
     node = Node.new(value)
+    @head ||= node 
     if @tail
       @tail.next_node = node
     else
-      @head = node
+      @tail = node
     end
-
     @tail = node
-    @size += 1
     puts "#{node.to_s} sucessfully appended"
   end
 
   def prepend(value)
     node = Node.new(value, @head)
     @head = node
-    @size +=1
     puts "#{node.to_s} sucessfully prepended"    
   end
 
@@ -80,18 +78,10 @@ class LinkdedList
   end
 
   def to_s
-    node = @head
-    str = ""
-    @size.times do
-      if node.next_node
-        str << node.to_s + " -> " 
-      else 
-        str << node.to_s
-      end
-
-      node = node.next_node
+    current_node = @head
+    until current_node.nil?
+      current_node = current_node.next_node
     end
-    puts str
   end
 
   def insert_at(value, index)
@@ -110,21 +100,6 @@ class Node
   end
 
   def to_s
-    "( #{@value} )"
+    puts @value
   end
 end
-
-ll = LinkdedList.new
-ll.append("Gurl")
-ll.append("What")
-ll.append("The")
-ll.append("Ballz")
-# puts ll.size()
-# puts ll.head()
-# puts ll.tail()
-# puts ll.at(2)
-# ll.to_s()
-# ll.pop()
-# ll.to_s()
-# p ll.contains?("What")
-# p ll.find("What")
