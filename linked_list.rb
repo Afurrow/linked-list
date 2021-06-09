@@ -25,7 +25,15 @@ class LinkedList
   end
 
   def size
-    @size
+    count = 0
+    node = @head
+
+    until node.nil? 
+      count += 1
+      node = node.next_node
+    end
+
+    count
   end
 
   def head
@@ -37,13 +45,15 @@ class LinkedList
   end
 
   def at(index)
-    return "No node at this index" if index > @size || index < 0
+    size = size()
+    return "No node at this index" if index > size || index < 0
 
     node = @head
     index.times do
       node = node.next_node
     end
-    node
+    
+    "Value at #{index}: #{node.to_s}"
   end
 
   def pop
@@ -100,6 +110,6 @@ class Node
   end
 
   def to_s
-    puts @value
+    @value
   end
 end
