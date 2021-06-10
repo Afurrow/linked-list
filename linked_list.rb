@@ -53,51 +53,77 @@ class LinkedList
       node = node.next_node
     end
     
-    "Value at #{index}: #{node.to_s}"
+    node
   end
 
   def pop
+    size = size()
+    previous_tail = @tail
+    return nil if size == 1
     node = @head
-    @size-2.times { node = node.next_node }
-    puts "Popped #{node.next_node.to_s}"
+    node = node.next_node until node.next_node == @tail
     node.next_node = nil
     @tail = node
-    @size -= 1
+    
+    "Popped: #{previous_tail.to_s}"
   end
 
   def contains?(value)
-    index = 0
     node = @head
-    @size.times do 
-      return true if value == node.value 
-      index +=1
+    until node.nil? do
+      return true if value == node.to_s
       node = node.next_node
     end
-    return false
+    false
   end
 
   def find(value)
+    node = @head 
     index = 0
-    node = @head
-    @size.times do 
-      return index if value == node.value 
-      index +=1
+    until node.nil? do 
+      return index if value == node.to_s
+      index += 1
       node = node.next_node
     end
-    return nil
+    nil
   end
 
   def to_s
-    current_node = @head
-    until current_node.nil?
-      current_node = current_node.next_node
+    node = @head
+    string = ''
+    until node.nil?
+      string += "( #{node.to_s} ) -> "
+      node = node.next_node
     end
+    string += 'nil'
+    string
   end
 
   def insert_at(value, index)
+    return puts 'Error: you selected an index outside of the list.' if index > size
+
+    if index.zero?
+      prepend(value)
+    else
+      new_node = Node.new(value, at(index))
+      prev_node = at(index - 1)
+      prev_node.next_node = new_node
+      @tail = new_node if new_node.next_node.nil?
+    end
   end
 
   def remove_at(index)
+    return puts 'Error: you selected an index outside of the list.' if index > size
+
+    if index.zero?
+      @head = at(1)
+    elsif at(index) == @tail
+      @tail = at(index - 1)
+      @tail.next_node = nil
+    else
+      prev_node = at(index - 1)
+      prev_node.next_node = at(index + 1)
+    end
   end
 end
 
